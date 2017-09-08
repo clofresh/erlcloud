@@ -1766,6 +1766,10 @@ s3_follow_redirect(
             {error, {http_error, StatusCode, StatusLine, ErrBody}}
     end.
 
+s3_follow_redirect_impl({error, {http_error, 304, _StatusLine, ErrBody, ErrHeaders}},
+    _Config, _Method, _Bucket, _Path, _Subresource, _Params, _POSTData, _Headers, _RedirectCount) ->
+    {ok, {ErrHeaders, ErrBody}};
+
 s3_follow_redirect_impl(
     {error, {http_error, StatusCode, StatusLine, ErrBody, _ErrHeaders}} = _Response,
     _Config, _Method, _Bucket, _Path, _Subresource, _Params, _POSTData, _Headers, 0) ->
